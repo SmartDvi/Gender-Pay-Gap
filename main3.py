@@ -12,14 +12,14 @@ from dash_iconify import DashIconify
 app = Dash(__name__, external_stylesheets=dmc.styles.ALL)
 
 # Read and prepare datasets
-#df = pd.read_csv('C:\\Users\\Moritus Peters\\Downloads\\gap_pay\\fullDenormalised.csv')
-#df1 = pd.read_csv('C:\\Users\\Moritus Peters\\Downloads\\gap_pay\\gpg.csv')
-#df.rename(columns={'companyName': 'Company Name'}, inplace=True)
-#df1.rename(columns={'companyName': 'Company Name'}, inplace=True)
-#merged_df = pd.merge(df, df1, how='outer', on='Company Name')
+df = pd.read_csv('C:\\Users\\Moritus Peters\\Downloads\\gap_pay\\fullDenormalised.csv')
+df1 = pd.read_csv('C:\\Users\\Moritus Peters\\Downloads\\gap_pay\\gpg.csv')
+df.rename(columns={'companyName': 'Company Name'}, inplace=True)
+df1.rename(columns={'companyName': 'Company Name'}, inplace=True)
+merged_df = pd.merge(df, df1, how='outer', on='Company Name')
 
-url = 'https://raw.githubusercontent.com/SmartDvi/Gender-Pay-Gap/main/merged_file.csv'
-merged_df = pd.read_csv(url)
+#url = 'https://raw.githubusercontent.com/SmartDvi/Gender-Pay-Gap/main/merged_file.csv'
+#merged_df = pd.read_csv(url)
 
 merged_df.fillna(merged_df.mode().iloc[0], inplace=True)
 merged_df.dropna(axis=1, thresh=int(0.5 * len(merged_df)), inplace=True)
@@ -64,7 +64,7 @@ app.layout = dmc.MantineProvider(
                             "Gender Pay Gap Dashboard",
                             style={
                                 "textAlign": "Center",
-                                "marginBottom": "20px",
+                                "marginBottom": "10px",
                                 "fontSize": "2.5rem",
                                 "fontWeight": "bold",
                                 "color": "#34495e",  # Dark grayish-blue color
@@ -75,10 +75,10 @@ app.layout = dmc.MantineProvider(
                     shadow="sm",
                     p="md",
                     radius="md",
-                    style={"backgroundColor": "#ffffff",
-                            "marginBottom": "20px",
+                   style={"backgroundColor": "#ffffff",
+                            "marginBottom": "10px",
                             "width": {"base": "100%", "md": "80%", "lg": "60%"}
-                            }  # White background for header
+                            }  # White b # White background for header
                 ),
                 
                 # Dropdown for selecting the industry
@@ -232,11 +232,7 @@ def calculate_metrics(category, company):
     if not isinstance(company, list):
         company = [company]
 
-    # Filter data based on selected industry and company
-    category_data = merged_df[(merged_df["Company Industries"].isin(category))]
-
-    if company:
-        category_data = category_data[category_data["Company Name"].isin(company)]
+    category_data = merged_df[(merged_df["Company Industries"].isin(category)) & (merged_df["Company Name"].isin(company))]
 
     if category_data.empty:
         return {
@@ -427,4 +423,4 @@ def render_tab_content(tab, industry, company):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run(debug=True)

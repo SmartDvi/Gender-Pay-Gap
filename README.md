@@ -1,6 +1,6 @@
 # Gender Pay Gap Dashboard
 
-![Dashboard Image](path_to_dashboard_image)  <!-- the Gif or Screenshop for the complete project is suppose to be here -->
+![Dashboard Image](https://github.com/SmartDvi/Gender-Pay-Gap/blob/main/Animation.gif)  
 
 ## Overview
 
